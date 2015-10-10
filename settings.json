@@ -1,0 +1,90 @@
+{
+  "palette":[
+    {
+      "id":0,
+      "name":"Air",
+      "texture":null
+    },
+    {
+      "id":1,
+      "name":"Stone",
+      "texture":"stone.png"
+    },
+    {
+      "id":2,
+      "name":"Grass Block",
+      "texture":"grass_top.png",
+      "use_biome_grass":true
+    },
+    {
+      "id":3,
+      "name":"Dirt",
+      "texture":"dirt.png"
+    },
+    {
+      "id":4,
+      "name":"Cobblestone",
+      "texture":"cobblestone.png"
+    },
+    {
+      "id":5,
+      "name":"Wood Planks",
+      "texture":"planks_oak.png"
+    },
+    {
+      "id":7,
+      "name":"Bedrock",
+      "texture":"bedrock.png"
+    },
+    {
+      "skip":true,
+      "id":8,
+      "name":"Water",
+      "texture":"water_still.png",
+      "tile_idx":0,
+      "tile_size":16
+    },
+    {
+      "id":9,
+      "name":"Stationary Water",
+      "texture":"water_still.png",
+      "tile_idx":0,
+      "tile_size":16
+    },
+    {
+      "skip":true,
+      "id":10,
+      "name":"Lava",
+      "texture":"lava_flow.png",
+      "tile_idx":0,
+      "tile_size":16
+    },
+    {
+      "id":11,
+      "name":"Stationary Lava",
+      "texture": "lava_still.png",
+      "tile_idx":0,
+      "tile_size":16
+    },
+    {
+      "id":12,
+      "name":"Sand",
+      "texture":"sand.png"
+    },
+    {
+      "id":13,
+      "name":" Gravel",
+      "texture":"gravel.png"
+    },
+    {
+      "id":14,
+      "name":" Gold Ore",
+      "texture":"gold_ore.png"
+    },
+    {
+      "id":15,
+      "name":" Iron Ore",
+      "texture":"iron_ore.png"
+    }
+  ]
+}

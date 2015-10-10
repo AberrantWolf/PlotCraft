@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PlotCraft:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PlotCraft_jar</output-path>
+    <properties id="ant-postprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="archive" name="PlotCraft.jar">
+      <element id="module-output" name="PlotCraft" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programming/Java/javax.json-1.0.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Programming/Java/lwjgl/jar/lwjgl.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
