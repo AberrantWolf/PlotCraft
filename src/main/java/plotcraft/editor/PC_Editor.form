@@ -217,7 +217,7 @@
                           <gridbag weightx="1.0" weighty="0.0"/>
                         </constraints>
                         <properties>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                           <focusable value="false"/>
                           <text value="&amp;Line"/>
                         </properties>
@@ -233,15 +233,15 @@
                           <text value="&amp;Rect"/>
                         </properties>
                       </component>
-                      <component id="15ed6" class="javax.swing.JToggleButton" binding="_circleToggleButton">
+                      <component id="15ed6" class="javax.swing.JToggleButton" binding="_ellipseToggleButton">
                         <constraints>
                           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="1.0" weighty="0.0"/>
                         </constraints>
                         <properties>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                           <focusable value="false"/>
-                          <text value="&amp;Circle"/>
+                          <text value="E&amp;llipse"/>
                         </properties>
                       </component>
                       <component id="c102a" class="javax.swing.JToggleButton" binding="_selectToggleButton">

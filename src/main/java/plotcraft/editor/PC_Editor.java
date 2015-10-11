@@ -1,8 +1,6 @@
 package plotcraft.editor;
 
-import plotcraft.editor.tools.PC_BrushTool;
-import plotcraft.editor.tools.PC_RectTool;
-import plotcraft.editor.tools.PC_Tool;
+import plotcraft.editor.tools.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,7 +23,7 @@ public class PC_Editor {
 	private JToggleButton _brushToggleButton;
 	private JToggleButton _lineToggleButton;
 	private JToggleButton _rectToggleButton;
-	private JToggleButton _circleToggleButton;
+	private JToggleButton _ellipseToggleButton;
 	private JToggleButton _selectToggleButton;
 	private JScrollPane _editorScrollPane;
 	private JPanel _mainPanel;
@@ -59,15 +57,17 @@ public class PC_Editor {
 		_lineToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Line button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Line);
+			changeTool(new PC_LineTool(this));
 		});
 		_rectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Rect button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Rect);
 			changeTool(new PC_RectTool(this));
 		});
-		_circleToggleButton.addActionListener(actionEvent -> {
-			System.out.println("Circle button pressed.");
-			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Circle);
+		_ellipseToggleButton.addActionListener(actionEvent -> {
+			System.out.println("Ellipse button pressed.");
+			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Ellipse);
+			changeTool(new PC_EllipseTool(this));
 		});
 		_selectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Select button pressed.");
@@ -563,7 +563,7 @@ public class PC_Editor {
 		gbc.weightx = 1.0;
 		panel6.add(_brushToggleButton, gbc);
 		_lineToggleButton = new JToggleButton();
-		_lineToggleButton.setEnabled(false);
+		_lineToggleButton.setEnabled(true);
 		_lineToggleButton.setFocusable(false);
 		_lineToggleButton.setText("Line");
 		_lineToggleButton.setMnemonic('L');
@@ -584,17 +584,17 @@ public class PC_Editor {
 		gbc.gridy = 1;
 		gbc.weightx = 1.0;
 		panel6.add(_rectToggleButton, gbc);
-		_circleToggleButton = new JToggleButton();
-		_circleToggleButton.setEnabled(false);
-		_circleToggleButton.setFocusable(false);
-		_circleToggleButton.setText("Circle");
-		_circleToggleButton.setMnemonic('C');
-		_circleToggleButton.setDisplayedMnemonicIndex(0);
+		_ellipseToggleButton = new JToggleButton();
+		_ellipseToggleButton.setEnabled(true);
+		_ellipseToggleButton.setFocusable(false);
+		_ellipseToggleButton.setText("Ellipse");
+		_ellipseToggleButton.setMnemonic('L');
+		_ellipseToggleButton.setDisplayedMnemonicIndex(1);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		gbc.weightx = 1.0;
-		panel6.add(_circleToggleButton, gbc);
+		panel6.add(_ellipseToggleButton, gbc);
 		_selectToggleButton = new JToggleButton();
 		_selectToggleButton.setEnabled(false);
 		_selectToggleButton.setFocusable(false);
@@ -622,7 +622,7 @@ public class PC_Editor {
 		buttonGroup.add(_brushToggleButton);
 		buttonGroup.add(_lineToggleButton);
 		buttonGroup.add(_rectToggleButton);
-		buttonGroup.add(_circleToggleButton);
+		buttonGroup.add(_ellipseToggleButton);
 		buttonGroup.add(_selectToggleButton);
 	}
 

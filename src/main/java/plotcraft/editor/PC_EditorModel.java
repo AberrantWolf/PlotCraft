@@ -343,7 +343,7 @@ public class PC_EditorModel {
 		ET_Pencil,
 		ET_Line,
 		ET_Rect,
-		ET_Circle,
+		ET_Ellipse,
 		ET_Select,
 		ET_Erase
 	}
