@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PlotCraft.iml" filepath="$PROJECT_DIR$/PlotCraft.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plotcraft.iml" filepath="$PROJECT_DIR$/plotcraft.iml" />
     </modules>
   </component>
 </project>

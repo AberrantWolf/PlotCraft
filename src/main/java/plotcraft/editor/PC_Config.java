@@ -1,7 +1,5 @@
 package plotcraft.editor;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
 import javax.imageio.ImageIO;
 import javax.json.*;
 import java.awt.*;
@@ -131,6 +129,8 @@ public class PC_Config {
 
 	private PC_Config() {
 		try {
+			System.out.println("Working Directory = " +
+					                   System.getProperty("user.dir"));
 			FileReader fileReader = new FileReader("settings.json");
 			JsonReader reader = Json.createReader(fileReader);
 			JsonStructure jsonStructure = reader.read();

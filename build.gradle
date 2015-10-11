@@ -1,0 +1,47 @@
+group 'none'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'application'
+apply plugin: 'idea'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+version = '1'
+
+applicationName = "PlotCraft"
+mainClassName = 'plotcraft.editor.PlotCraft'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.glassfish', name: 'javax.json', version: '1.0.4'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'PlotCraft',
+                'Implementation-Version': version
+    }
+}
+
+applicationDistribution.into('bin') {
+    from('.') {
+        include 'settings.json'
+    }
+    into('textures') {
+        from('textures')
+    }
+}
+
+startScripts {
+    classpath += files('src/dist/xxxPLACEHOLDERxxx')
+    doLast {
+        def windowsScriptFile = file getWindowsScript()
+        def unixScriptFile = file getUnixScript()
+        windowsScriptFile.text = windowsScriptFile.text.replace('%APP_HOME%\\lib\\xxxPLACEHOLDERxxx', '%APP_HOME%')
+        unixScriptFile.text = unixScriptFile.text.replace('$APP_HOME/lib/xxxPLACEHOLDERxxx', '$APP_HOME')
+    }
+}
