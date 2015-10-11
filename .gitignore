@@ -16,10 +16,11 @@ textures/*
 # Gradle ignores
 .gradle
 build/
+!gradle-wrapper.jar
 
 # IntelliJ IDEA ignores
-.iml
-.idea/
-.ipr
-.iws
+*.iml
+*.idea/
+*.ipr
+*.iws
 /out/
