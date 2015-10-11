@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="plotcraft.editor.PC_Editor">
   <grid id="27dc6" binding="_mainPanel" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="831" height="520"/>
+      <xy x="20" y="20" width="831" height="677"/>
     </constraints>
     <properties>
       <enabled value="true"/>
@@ -162,6 +162,15 @@
                           <text value="Inspector"/>
                         </properties>
                       </component>
+                      <grid id="3508b" binding="_optionsPanel" layout-manager="GridBagLayout">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                          <gridbag weightx="0.0" weighty="0.0"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
                     </children>
                   </grid>
                   <scrollpane id="36eb8" binding="_tileSelectorScrollPane">

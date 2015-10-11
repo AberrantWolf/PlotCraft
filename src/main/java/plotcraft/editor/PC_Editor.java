@@ -35,6 +35,7 @@ public class PC_Editor {
 	private JSpinner _currentLayerSpinner;
 	private JSpinner _tileSizeSpinner;
 	private JScrollPane _tileSelectorScrollPane;
+	private JPanel _optionsPanel;
 	private JPanel _tileSelectorPanel;
 
 	private PC_EditorPanel _editorPanel;
@@ -53,8 +54,7 @@ public class PC_Editor {
 		_brushToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Pencil button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Pencil);
-			_selectedTool = new PC_BrushTool(this);
-			updateStatusText();
+			changeTool(new PC_BrushTool(this));
 		});
 		_lineToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Line button pressed.");
@@ -63,8 +63,7 @@ public class PC_Editor {
 		_rectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Rect button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Rect);
-			_selectedTool = new PC_RectTool(this);
-			updateStatusText();
+			changeTool(new PC_RectTool(this));
 		});
 		_circleToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Circle button pressed.");
@@ -113,6 +112,13 @@ public class PC_Editor {
 			_editorPanel.updateSize();
 			_editorPanel.revalidate();
 		});
+	}
+
+	private void changeTool(PC_Tool tool) {
+		_selectedTool = tool;
+		_optionsPanel.removeAll();
+		tool.setupToolOptions(_optionsPanel);
+		updateStatusText();
 	}
 
 	public static PC_Editor makeEditor() {
@@ -522,6 +528,14 @@ public class PC_Editor {
 		gbc.weighty = 1.0;
 		gbc.anchor = GridBagConstraints.WEST;
 		panel5.add(label6, gbc);
+		_optionsPanel = new JPanel();
+		_optionsPanel.setLayout(new GridBagLayout());
+		gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.BOTH;
+		panel5.add(_optionsPanel, gbc);
 		_tileSelectorScrollPane = new JScrollPane();
 		_tileSelectorScrollPane.setPreferredSize(new Dimension(100, 0));
 		gbc = new GridBagConstraints();
