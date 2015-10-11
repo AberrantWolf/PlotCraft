@@ -156,6 +156,11 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 		}
 	}
 
+	public void forceToolComplete() {
+		// TODO: commit any partial drawings now, regardless of mouse state
+		// TODO: make sure that things won't go weird if we switch tools while the mouse is still down
+	}
+
 	// SCROLLABLE Interface
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {

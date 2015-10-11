@@ -1,6 +1,7 @@
 package plotcraft.editor;
 
-import plotcraft.editor.tools.PC_Brush;
+import plotcraft.editor.tools.PC_BrushTool;
+import plotcraft.editor.tools.PC_RectTool;
 import plotcraft.editor.tools.PC_Tool;
 
 import javax.swing.*;
@@ -46,13 +47,13 @@ public class PC_Editor {
 
 	private PC_Editor() {
 		_model = new PC_EditorModel();
-		_selectedTool = new PC_Brush(this);
+		_selectedTool = new PC_BrushTool(this);
 
 		$$$setupUI$$$();
 		_brushToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Pencil button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Pencil);
-			_selectedTool = new PC_Brush(this);
+			_selectedTool = new PC_BrushTool(this);
 			updateStatusText();
 		});
 		_lineToggleButton.addActionListener(actionEvent -> {
@@ -62,6 +63,8 @@ public class PC_Editor {
 		_rectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Rect button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Rect);
+			_selectedTool = new PC_RectTool(this);
+			updateStatusText();
 		});
 		_circleToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Circle button pressed.");
@@ -557,7 +560,7 @@ public class PC_Editor {
 		gbc.weightx = 1.0;
 		panel6.add(_lineToggleButton, gbc);
 		_rectToggleButton = new JToggleButton();
-		_rectToggleButton.setEnabled(false);
+		_rectToggleButton.setEnabled(true);
 		_rectToggleButton.setFocusable(false);
 		_rectToggleButton.setText("Rect");
 		_rectToggleButton.setMnemonic('R');

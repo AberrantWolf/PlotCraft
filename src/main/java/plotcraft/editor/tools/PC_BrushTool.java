@@ -12,10 +12,10 @@ import java.util.ArrayList;
  *
  * Created by harper on 10/9/2015.
  */
-public class PC_Brush extends PC_Tool {
+public class PC_BrushTool extends PC_Tool {
 	private static int s_brushSize = 1;
 
-	public PC_Brush(PC_Editor controller) {
+	public PC_BrushTool(PC_Editor controller) {
 		super(controller);
 	}
 
@@ -35,6 +35,9 @@ public class PC_Brush extends PC_Tool {
 		sizePanel.setLayout(new GridLayout(0, 2));
 		sizePanel.add(new JLabel("Size"));
 		sizePanel.add(sizeSpinner);
+
+		optionsPanel.add(sizePanel);
+		optionsPanel.revalidate();
 	}
 
 	@Override
