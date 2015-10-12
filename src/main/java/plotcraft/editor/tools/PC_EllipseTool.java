@@ -3,6 +3,7 @@ package plotcraft.editor.tools;
 import plotcraft.editor.PC_Editor;
 
 import javax.swing.*;
+import java.util.HashMap;
 
 /**
  * Created by harper on 10/11/2015.
@@ -12,13 +13,50 @@ public class PC_EllipseTool extends PC_Tool {
 		super(controller);
 	}
 
-	private void DrawPoint(int x, int y) {
-		_edits.add(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+	private boolean _shouldFill = false;
+
+	private void addPointIfEmpty(PC_EditedTile add) {
+		boolean exists = false;
+		for (PC_EditedTile edit : _edits) {
+			if (edit.x == add.x && edit.y == add.y) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			_edits.add(add);
+		}
+	}
+
+	private class _MinMaxPair {int min=Integer.MAX_VALUE, max=Integer.MIN_VALUE;}
+	private HashMap<Integer, _MinMaxPair> _rows = new HashMap<>();
+	private void drawPoint(int x, int y) {
+		addPointIfEmpty(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+
+		if (_shouldFill) {
+			_MinMaxPair pair = _rows.getOrDefault(y, new _MinMaxPair());
+			if (x < pair.min) pair.min = x;
+			if (x > pair.max) pair.max = x;
+			_rows.putIfAbsent(y, pair);
+		}
+	}
+
+	private void finishEllipse() {
+		// Add in the missing rows, if any were queued to be added
+		_rows.forEach((y, pair) -> {
+			_edits.add(new PC_EditedTile(pair.min, y, _controller.getSelectedTile()));
+			_edits.add(new PC_EditedTile(pair.max, y, _controller.getSelectedTile()));
+
+			for (int x = pair.min; x<=pair.max; x++) {
+				addPointIfEmpty(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+			}
+		});
+		_rows.clear();
 	}
 
 	// Heavily modified McIlroy's algorithm to account for odd width/height ellipses and the 2-by-n edge case
 	// Retrieved from: http://editor.altervista.org/graphical%20effects/shapes%20tracking/draw-ellipse.html
-	void DrawEllipse(int xc, int yc, int a, int b, boolean exW, boolean exH) {
+	void drawEllipse(int xc, int yc, int a, int b, boolean exW, boolean exH) {
 		/* e(x,y) = b^2*x^2 + a^2*y^2 - a^2*b^2 */
 
 		if (exW) {
@@ -47,25 +85,25 @@ public class PC_EllipseTool extends PC_Tool {
 			xn = xc - x;
 			yn = yc - y;
 
-			DrawPoint(xp, yp);
+			drawPoint(xp, yp);
 
 			// Edge case for 2-by-n ellipses
 			if (x==0 && y!=0 && exW) {
-				DrawPoint(xc - 1, yn);
-				DrawPoint(xc, yp);
+				drawPoint(xc - 1, yn);
+				drawPoint(xc, yp);
 			}
 			// Edge case for n-by-2 ellipses
 			if (y==0 && x!=0 && exH) {
-				DrawPoint(xn, yc - 1);
-				DrawPoint(xp, yc);
+				drawPoint(xn, yc - 1);
+				drawPoint(xp, yc);
 			}
 
 			if (x!=0 || y!=0) {
-				DrawPoint(xc - x, yc - y);
+				drawPoint(xc - x, yc - y);
 			}
 			if (x!=0 && y!=0) {
-				DrawPoint(xp, yc - y);
-				DrawPoint(xc - x, yp);
+				drawPoint(xp, yc - y);
+				drawPoint(xc - x, yp);
 			}
 
 			// Increment
@@ -89,6 +127,8 @@ public class PC_EllipseTool extends PC_Tool {
 				t += dyt;
 			}
 		}
+
+		finishEllipse();
 	}
 
 	private int _lastX, _lastY;
@@ -100,7 +140,14 @@ public class PC_EllipseTool extends PC_Tool {
 
 	@Override
 	public void setupToolOptions(JPanel optionsPanel) {
+		// Filled or not filled check box
+		JCheckBox fillBox = new JCheckBox("Draw filled", false);
+		fillBox.addActionListener(actionEvent -> {
+			_shouldFill = fillBox.isSelected();
+		});
 
+		optionsPanel.add(fillBox);
+		optionsPanel.revalidate();
 	}
 
 	@Override
@@ -140,7 +187,7 @@ public class PC_EllipseTool extends PC_Tool {
 			if (height % 2 > 0)
 				extraHeight = true;
 
-			DrawEllipse(xc, yc, width / 2, height / 2, extraWidth, extraHeight);
+			drawEllipse(xc, yc, width / 2, height / 2, extraWidth, extraHeight);
 
 			_lastX = _mouseCurrentX;
 			_lastY = _mouseCurrentY;
