@@ -1,6 +1,7 @@
 package plotcraft.editor.tools;
 
 import plotcraft.editor.PC_Editor;
+import plotcraft.editor.PC_EditorModel;
 import plotcraft.editor.PC_Tile;
 
 import javax.swing.*;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class PC_BrushTool extends PC_Tool {
 	private static int s_brushSize = 1;
 
-	public PC_BrushTool(PC_Editor controller) {
-		super(controller);
+	public PC_BrushTool(PC_Editor controller, PC_EditorModel model) {
+		super(controller, model);
 	}
 
 	@Override
@@ -43,11 +44,6 @@ public class PC_BrushTool extends PC_Tool {
 	@Override
 	protected void handleMouseDown() {
 		_edits.add(new PC_EditedTile(_mouseDownX, _mouseDownY, _controller.getSelectedTile()));
-	}
-
-	@Override
-	protected void handleMouseUp() {
-
 	}
 
 	@Override

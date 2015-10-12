@@ -1,6 +1,7 @@
 package plotcraft.editor.tools;
 
 import plotcraft.editor.PC_Editor;
+import plotcraft.editor.PC_EditorModel;
 
 import javax.swing.*;
 
@@ -11,12 +12,12 @@ import javax.swing.*;
  */
 public class PC_RectTool extends PC_Tool {
 
-	public PC_RectTool(PC_Editor controller) {
-		super(controller);
-	}
-
 	private int _lastX, _lastY;
 	private boolean _shouldFill;
+
+	public PC_RectTool(PC_Editor controller, PC_EditorModel model) {
+		super(controller, model);
+	}
 
 	@Override
 	public String getToolName() {
@@ -27,9 +28,7 @@ public class PC_RectTool extends PC_Tool {
 	public void setupToolOptions(JPanel optionsPanel) {
 		// Filled or not filled check box
 		JCheckBox fillBox = new JCheckBox("Draw filled", false);
-		fillBox.addActionListener(actionEvent -> {
-			_shouldFill = fillBox.isSelected();
-		});
+		fillBox.addActionListener(actionEvent -> _shouldFill = fillBox.isSelected());
 
 		optionsPanel.add(fillBox);
 		optionsPanel.revalidate();
@@ -43,10 +42,6 @@ public class PC_RectTool extends PC_Tool {
 		_lastY = _mouseDownY;
 
 		_edits.add(new PC_EditedTile(_mouseDownX, _mouseDownY, _controller.getSelectedTile()));
-	}
-
-	@Override
-	protected void handleMouseUp() {
 	}
 
 	@Override

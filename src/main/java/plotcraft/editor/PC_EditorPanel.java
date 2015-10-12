@@ -207,20 +207,7 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 	public void mouseReleased(MouseEvent mouseEvent) {
 		Point p = getCurrentGridPoint();
 
-		ArrayList<PC_EditedTile> edit = _controller.getSelectedTool().onMouseUp(p.x, p.y);
-		if (edit != null) {
-			ArrayList<PC_EditedTile> undo = new ArrayList<>();
-
-			for (PC_EditedTile tile : edit) {
-				int x = tile.x;
-				int y = tile.y;
-				undo.add(new PC_EditedTile(x, y, _model.getTile(x, y)));
-
-				_model.setTile(x, y, tile.data);
-			}
-
-			// TODO: register undo list with undo manager
-		}
+		_controller.getSelectedTool().onMouseUp(p.x, p.y);
 
 		repaint();
 	}

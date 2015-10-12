@@ -1,6 +1,7 @@
 package plotcraft.editor.tools;
 
 import plotcraft.editor.PC_Editor;
+import plotcraft.editor.PC_EditorModel;
 import plotcraft.editor.PC_Tile;
 
 import javax.swing.*;
@@ -17,9 +18,11 @@ public abstract class PC_Tool {
 	protected int _mouseCurrentX, _mouseCurrentY;
 	protected boolean _isMousePressed;
 	protected PC_Editor _controller;
+	protected PC_EditorModel _model;
 
-	public PC_Tool(PC_Editor controller) {
+	public PC_Tool(PC_Editor controller, PC_EditorModel model) {
 		_controller = controller;
+		_model = model;
 	}
 
 	public final ArrayList<PC_EditedTile> getEditedTiles() {
@@ -33,8 +36,26 @@ public abstract class PC_Tool {
 	abstract public void setupToolOptions(JPanel optionsPanel);
 
 	abstract protected void handleMouseDown();
-	abstract protected void handleMouseUp();
+	protected void handleMouseUp() {
+		commitEdits();
+	}
 	abstract protected void handleMouseDrag();
+
+	protected void commitEdits() {
+		if (_edits != null) {
+			ArrayList<PC_EditedTile> undo = new ArrayList<>();
+
+			for (PC_EditedTile tile : _edits) {
+				int x = tile.x;
+				int y = tile.y;
+				undo.add(new PC_EditedTile(x, y, _model.getTile(x, y)));
+
+				_model.setTile(x, y, tile.data);
+			}
+
+			// TODO: register undo list with undo manager
+		}
+	}
 
 	public final void onMouseDown(int x, int y) {
 		_edits = new ArrayList<>();
@@ -45,15 +66,16 @@ public abstract class PC_Tool {
 		handleMouseDown();
 	}
 
-	public final ArrayList<PC_EditedTile> onMouseUp(int x, int y) {
+	public final void onMouseUp(int x, int y) {
 		if (!_isMousePressed) {
-			return null;
+			return;
 		}
+
+		_mouseCurrentX = x;
+		_mouseCurrentY = y;
 
 		_isMousePressed = false;
 		handleMouseUp();
-
-		return _edits;
 	}
 
 	public final void onMouseDrag(int x, int y) {

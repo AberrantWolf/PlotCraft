@@ -1,19 +1,25 @@
 package plotcraft.editor.tools;
 
 import plotcraft.editor.PC_Editor;
+import plotcraft.editor.PC_EditorModel;
 
 import javax.swing.*;
 import java.util.HashMap;
 
 /**
+ * Tool for drawing raster ellipses contained within a rectangle
+ *
+ * Based on the McIlroy algorithm and modified to fix it for various edge cases and odd-length dimensions
+ *
  * Created by harper on 10/11/2015.
  */
 public class PC_EllipseTool extends PC_Tool {
-	public PC_EllipseTool(PC_Editor controller) {
-		super(controller);
-	}
 
 	private boolean _shouldFill = false;
+
+	public PC_EllipseTool(PC_Editor controller, PC_EditorModel model) {
+		super(controller, model);
+	}
 
 	private void addPointIfEmpty(PC_EditedTile add) {
 		boolean exists = false;
@@ -142,9 +148,7 @@ public class PC_EllipseTool extends PC_Tool {
 	public void setupToolOptions(JPanel optionsPanel) {
 		// Filled or not filled check box
 		JCheckBox fillBox = new JCheckBox("Draw filled", false);
-		fillBox.addActionListener(actionEvent -> {
-			_shouldFill = fillBox.isSelected();
-		});
+		fillBox.addActionListener(actionEvent -> _shouldFill = fillBox.isSelected());
 
 		optionsPanel.add(fillBox);
 		optionsPanel.revalidate();
@@ -158,11 +162,6 @@ public class PC_EllipseTool extends PC_Tool {
 		_lastY = _mouseDownY;
 
 		_edits.add(new PC_EditedTile(_mouseDownX, _mouseDownY, _controller.getSelectedTile()));
-	}
-
-	@Override
-	protected void handleMouseUp() {
-
 	}
 
 	@Override

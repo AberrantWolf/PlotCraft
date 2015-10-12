@@ -46,28 +46,28 @@ public class PC_Editor {
 
 	private PC_Editor() {
 		_model = new PC_EditorModel();
-		_selectedTool = new PC_BrushTool(this);
+		_selectedTool = new PC_BrushTool(this, _model);
 
 		$$$setupUI$$$();
 		_brushToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Pencil button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Pencil);
-			changeTool(new PC_BrushTool(this));
+			changeTool(new PC_BrushTool(this, _model));
 		});
 		_lineToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Line button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Line);
-			changeTool(new PC_LineTool(this));
+			changeTool(new PC_LineTool(this, _model));
 		});
 		_rectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Rect button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Rect);
-			changeTool(new PC_RectTool(this));
+			changeTool(new PC_RectTool(this, _model));
 		});
 		_ellipseToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Ellipse button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Ellipse);
-			changeTool(new PC_EllipseTool(this));
+			changeTool(new PC_EllipseTool(this, _model));
 		});
 		_selectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Select button pressed.");
