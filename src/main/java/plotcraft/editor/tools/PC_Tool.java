@@ -42,19 +42,23 @@ public abstract class PC_Tool {
 	abstract protected void handleMouseDrag();
 
 	protected void commitEdits() {
-		if (_edits != null) {
-			ArrayList<PC_EditedTile> undo = new ArrayList<>();
-
-			for (PC_EditedTile tile : _edits) {
-				int x = tile.x;
-				int y = tile.y;
-				undo.add(new PC_EditedTile(x, y, _model.getTile(x, y)));
-
-				_model.setTile(x, y, tile.data);
-			}
-
-			// TODO: register undo list with undo manager
+		if (_edits == null || _edits.size() < 1) {
+			return;
 		}
+
+		ArrayList<PC_EditedTile> undo = new ArrayList<>();
+
+		for (PC_EditedTile tile : _edits) {
+			int x = tile.x;
+			int y = tile.y;
+			undo.add(new PC_EditedTile(x, y, _model.getTile(x, y)));
+
+			_model.setTile(x, y, tile.data);
+		}
+
+		// TODO: register undo list with undo manager
+
+		_edits.clear();
 	}
 
 	public final void onMouseDown(int x, int y) {
