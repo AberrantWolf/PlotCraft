@@ -354,7 +354,7 @@ public class PC_EditorModel {
 		PC_Tile data;
 
 		Tile() {
-			data = PC_Config.getRandomTile();
+			data = PC_Config.getDefaultTile();
 		}
 	}
 	private ArrayList<ArrayList<ArrayList<Tile>>> _tiles;   //3D array [shudder]
