@@ -72,6 +72,7 @@ public class PC_Editor {
 		_selectToggleButton.addActionListener(actionEvent -> {
 			System.out.println("Select button pressed.");
 			_model.setCurrentTool(PC_EditorModel.EditorTool.ET_Select);
+			changeTool(new PC_SelectTool(this, _model));
 		});
 		_currentLayerSpinner.addChangeListener(changeEvent -> {
 			int val = (Integer) _currentLayerSpinner.getValue();
@@ -596,7 +597,7 @@ public class PC_Editor {
 		gbc.weightx = 1.0;
 		panel6.add(_ellipseToggleButton, gbc);
 		_selectToggleButton = new JToggleButton();
-		_selectToggleButton.setEnabled(false);
+		_selectToggleButton.setEnabled(true);
 		_selectToggleButton.setFocusable(false);
 		_selectToggleButton.setText("Select");
 		_selectToggleButton.setMnemonic('S');

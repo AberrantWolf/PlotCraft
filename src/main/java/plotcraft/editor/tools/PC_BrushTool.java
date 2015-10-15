@@ -43,7 +43,7 @@ public class PC_BrushTool extends PC_Tool {
 
 	@Override
 	protected void handleMouseDown() {
-		_edits.add(new PC_EditedTile(_mouseDownX, _mouseDownY, _controller.getSelectedTile()));
+		addEditedTile(new PC_EditedTile(_mouseDownX, _mouseDownY, _controller.getSelectedTile()));
 	}
 
 	@Override

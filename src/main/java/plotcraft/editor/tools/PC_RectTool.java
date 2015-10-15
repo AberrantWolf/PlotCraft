@@ -57,7 +57,7 @@ public class PC_RectTool extends PC_Tool {
 			for (int y=top; y <= bottom; y++) {
 				for (int x=left; x<=right; x++) {
 					if (_shouldFill || y == top || y == bottom || x == left || x == right) {
-						_edits.add(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+						addEditedTile(new PC_EditedTile(x, y, _controller.getSelectedTile()));
 					}
 				}
 			}

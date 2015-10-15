@@ -23,13 +23,24 @@ public abstract class PC_Tool {
 	public PC_Tool(PC_Editor controller, PC_EditorModel model) {
 		_controller = controller;
 		_model = model;
+		_edits = new ArrayList<>();
 	}
 
 	public final ArrayList<PC_EditedTile> getEditedTiles() {
-		if (_isMousePressed)
-			return _edits;
+		return _edits;
+	}
 
-		return null;
+	protected final void addEditedTile(PC_EditedTile tile) {
+		boolean exists = false;
+		for (PC_EditedTile edit : _edits) {
+			if (edit.x == tile.x && edit.y == tile.y) {
+				exists = true;
+			}
+		}
+
+		if (!exists) {
+			_edits.add(tile);
+		}
 	}
 
 	abstract public String getToolName();
@@ -62,7 +73,6 @@ public abstract class PC_Tool {
 	}
 
 	public final void onMouseDown(int x, int y) {
-		_edits = new ArrayList<>();
 		_mouseDownX = _mouseCurrentX = x;
 		_mouseDownY = _mouseCurrentY = y;
 		_isMousePressed = true;

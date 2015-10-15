@@ -32,6 +32,9 @@ public class PC_Config {
 		int sel = (int)(Math.random() * (ourInstance._tileTemplates.size() - 1) + 1);
 		return getInstance()._tileTemplates.get(sel);
 	}
+	public static PC_Tile getDefaultTile() {
+		return getInstance()._tileTemplates.get(0);
+	}
 	public static PC_Tile getTile(int id) {
 		for (PC_Tile t : getInstance()._tileTemplates) {
 			if (t.id == id) {

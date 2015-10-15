@@ -21,23 +21,10 @@ public class PC_EllipseTool extends PC_Tool {
 		super(controller, model);
 	}
 
-	private void addPointIfEmpty(PC_EditedTile add) {
-		boolean exists = false;
-		for (PC_EditedTile edit : _edits) {
-			if (edit.x == add.x && edit.y == add.y) {
-				exists = true;
-			}
-		}
-
-		if (!exists) {
-			_edits.add(add);
-		}
-	}
-
 	private class _MinMaxPair {int min=Integer.MAX_VALUE, max=Integer.MIN_VALUE;}
 	private HashMap<Integer, _MinMaxPair> _rows = new HashMap<>();
 	private void drawPoint(int x, int y) {
-		addPointIfEmpty(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+		addEditedTile(new PC_EditedTile(x, y, _controller.getSelectedTile()));
 
 		if (_shouldFill) {
 			_MinMaxPair pair = _rows.getOrDefault(y, new _MinMaxPair());
@@ -54,7 +41,7 @@ public class PC_EllipseTool extends PC_Tool {
 			_edits.add(new PC_EditedTile(pair.max, y, _controller.getSelectedTile()));
 
 			for (int x = pair.min; x<=pair.max; x++) {
-				addPointIfEmpty(new PC_EditedTile(x, y, _controller.getSelectedTile()));
+				addEditedTile(new PC_EditedTile(x, y, _controller.getSelectedTile()));
 			}
 		});
 		_rows.clear();

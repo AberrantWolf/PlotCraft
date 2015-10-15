@@ -250,7 +250,7 @@
                           <gridbag weightx="1.0" weighty="0.0"/>
                         </constraints>
                         <properties>
-                          <enabled value="false"/>
+                          <enabled value="true"/>
                           <focusable value="false"/>
                           <text value="&amp;Select"/>
                         </properties>
