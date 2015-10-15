@@ -52,7 +52,7 @@ public abstract class PC_Tool {
 	}
 	abstract protected void handleMouseDrag();
 
-	protected void commitEdits() {
+	public void commitEdits() {
 		if (_edits == null || _edits.size() < 1) {
 			return;
 		}

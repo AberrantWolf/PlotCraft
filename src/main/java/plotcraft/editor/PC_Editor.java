@@ -116,9 +116,12 @@ public class PC_Editor {
 	}
 
 	private void changeTool(PC_Tool tool) {
+		_selectedTool.commitEdits();
+		_editorPanel.repaint();
+
 		_selectedTool = tool;
 		_optionsPanel.removeAll();
-		tool.setupToolOptions(_optionsPanel);
+		_selectedTool.setupToolOptions(_optionsPanel);
 		updateStatusText();
 	}
 
