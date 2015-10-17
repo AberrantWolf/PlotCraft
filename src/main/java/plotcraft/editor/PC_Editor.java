@@ -7,6 +7,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.util.ArrayList;
 
 
 /**
@@ -39,14 +40,15 @@ public class PC_Editor {
 	private PC_EditorPanel _editorPanel;
 	private PC_EditorModel _model;
 
-	private PC_Tool _selectedTool;
+	private PC_Tool _currentTool;
 	private PC_Tile _selectedTile;
 
 	private final JFileChooser _fileChooser = new JFileChooser();
 
 	private PC_Editor() {
 		_model = new PC_EditorModel();
-		_selectedTool = new PC_BrushTool(this, _model);
+		_currentTool = new PC_BrushTool(this, _model);
+		_copyBuffer = new ArrayList<>();
 
 		$$$setupUI$$$();
 		_brushToggleButton.addActionListener(actionEvent -> {
@@ -116,12 +118,12 @@ public class PC_Editor {
 	}
 
 	private void changeTool(PC_Tool tool) {
-		_selectedTool.commitEdits();
+		_currentTool.commitEdits();
 		_editorPanel.repaint();
 
-		_selectedTool = tool;
+		_currentTool = tool;
 		_optionsPanel.removeAll();
-		_selectedTool.setupToolOptions(_optionsPanel);
+		_currentTool.setupToolOptions(_optionsPanel);
 		updateStatusText();
 	}
 
@@ -211,28 +213,27 @@ public class PC_Editor {
 		return editor;
 	}
 
+	JMenuItem _editCopyItem;
+	JMenuItem _editPasteItem;
 	private void makeMenu(JFrame frame) {
 		JMenuBar menuBar = new JMenuBar();
 
-		int menuMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+		int shortcutMask = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
 		// File menu
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 
 		JMenuItem fileNewItem = new JMenuItem("New", KeyEvent.VK_N);
-		fileNewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, menuMask));
-		fileNewItem.setIcon(null);
+		fileNewItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, shortcutMask));
 		fileNewItem.addActionListener(actionEvent -> doNew());
 
 		JMenuItem fileOpenItem = new JMenuItem("Open", KeyEvent.VK_O);
-		fileOpenItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, menuMask));
-		fileOpenItem.setIcon(null);
+		fileOpenItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, shortcutMask));
 		fileOpenItem.addActionListener(actionEvent -> doOpen());
 
 		JMenuItem fileSaveItem = new JMenuItem("Save", KeyEvent.VK_S);
-		fileSaveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, menuMask));
-		fileSaveItem.setIcon(null);
+		fileSaveItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, shortcutMask));
 		fileSaveItem.addActionListener(actionEvent -> doSave());
 
 		JMenuItem fileExitItem = new JMenuItem("Exit", KeyEvent.VK_X);
@@ -248,9 +249,26 @@ public class PC_Editor {
 		fileMenu.addSeparator();
 		fileMenu.add(fileExitItem);
 
-		menuBar.add(fileMenu);
-
 		// Edit menu
+		JMenu editMenu = new JMenu("Edit");
+		fileMenu.setMnemonic(KeyEvent.VK_E);
+
+		_editCopyItem = new JMenuItem("Copy Tiles", KeyEvent.VK_C);
+		_editCopyItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, shortcutMask));
+		_editCopyItem.addActionListener(actionEvent -> doCopy());
+		setCanCopy(false);
+
+		_editPasteItem = new JMenuItem("Paste Tiles", KeyEvent.VK_P);
+		_editPasteItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, shortcutMask));
+		_editPasteItem.addActionListener(actionEvent -> doPaste());
+		setCanPaste(false);
+
+		editMenu.add(_editCopyItem);
+		editMenu.add(_editPasteItem);
+
+		// Add menus to bar
+		menuBar.add(fileMenu);
+		menuBar.add(editMenu);
 
 		frame.setJMenuBar(menuBar);
 	}
@@ -338,6 +356,46 @@ public class PC_Editor {
 		}
 	}
 
+	private boolean _canCopy;
+	public void setCanCopy(boolean can) {
+		_canCopy = can;
+
+		_editCopyItem.setEnabled(_canCopy);
+	}
+	private boolean _canPaste;
+	public void setCanPaste(boolean can) {
+		_canPaste = can;
+		_editPasteItem.setEnabled(_canPaste);
+	}
+
+	ArrayList<PC_EditedTile> _copyBuffer;
+	private void doCopy() {
+		if (!_canCopy) {
+			return;
+		}
+
+		_copyBuffer.clear();
+		_currentTool.getEditedTiles().forEach((tile) -> _copyBuffer.add(new PC_EditedTile(tile)));
+
+		if (_copyBuffer.size() > 0) {
+			setCanPaste(true);
+		}
+	}
+
+	private void doPaste() {
+		if (!_canPaste || _copyBuffer.size() < 1) {
+			return;
+		}
+
+		if (_currentTool.getClass() != PC_SelectTool.class) {
+			_selectToggleButton.doClick();
+			//changeTool(new PC_SelectTool(this, _model));
+		}
+
+		PC_SelectTool selTool = (PC_SelectTool) _currentTool;
+		selTool.injectSelection(_copyBuffer);
+	}
+
 	private void createUIComponents() {
 		// TODO: place custom component creation code here
 		_tileSizeSpinner = new JSpinner();
@@ -360,11 +418,11 @@ public class PC_Editor {
 	public void updateStatusText() {
 		// TODO: display the position of the mouse cursor, but ONLY if the cursor is within the edit panel
 		Point mp = _editorPanel.getCurrentGridPoint();
-		_statsField.setText(String.format("[%s]: %s @(%d, %d)", _selectedTool.getToolName(), _selectedTile.name, mp.x, mp.y));
+		_statsField.setText(String.format("[%s]: %s @(%d, %d)", _currentTool.getToolName(), _selectedTile.name, mp.x, mp.y));
 	}
 
 	public PC_Tool getSelectedTool() {
-		return _selectedTool;
+		return _currentTool;
 	}
 
 	public PC_Tile getSelectedTile() {

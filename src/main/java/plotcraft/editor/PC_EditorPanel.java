@@ -50,6 +50,8 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 
 		addMouseListener(this);
 		addMouseMotionListener(this);
+
+		System.out.println("Focus enbaled: " + isFocusable());
 	}
 
 	public Point getCurrentGridPoint() {
@@ -156,11 +158,6 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 		}
 	}
 
-	public void forceToolComplete() {
-		// TODO: commit any partial drawings now, regardless of mouse state
-		// TODO: make sure that things won't go weird if we switch tools while the mouse is still down
-	}
-
 	// SCROLLABLE Interface
 	@Override
 	public Dimension getPreferredScrollableViewportSize() {
@@ -199,6 +196,8 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 			Point p = getCurrentGridPoint();
 			_controller.getSelectedTool().onMouseDown(p.x, p.y);
 		}
+
+		grabFocus();
 
 		repaint();
 	}

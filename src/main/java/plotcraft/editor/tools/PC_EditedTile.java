@@ -10,6 +10,12 @@ public class PC_EditedTile {
 	public int y;
 	public PC_Tile data;
 
+	public PC_EditedTile(PC_EditedTile copy) {
+		x = copy.x;
+		y = copy.y;
+		data = copy.data;
+	}
+
 	public PC_EditedTile(int x, int y, PC_Tile data) {
 		this.x = x;
 		this.y = y;

@@ -6,6 +6,7 @@ import plotcraft.editor.PC_EditorModel;
 import plotcraft.editor.PC_Tile;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Tool for selecting, dropping, and copying sections
@@ -20,6 +21,18 @@ public class PC_SelectTool extends PC_Tool {
 		super(controller, model);
 		_hasSelection = false;
 		_isDraggingSelection = false;
+	}
+
+	public void injectSelection(ArrayList<PC_EditedTile> tiles) {
+		if (_hasSelection) {
+			commitEdits();
+		}
+
+		tiles.forEach((tile) -> addEditedTile(new PC_EditedTile(tile)));
+
+		if (_edits.size() > 0) {
+			_hasSelection = true;
+		}
 	}
 
 	@Override
@@ -50,6 +63,7 @@ public class PC_SelectTool extends PC_Tool {
 			} else {
 				commitEdits();
 				_hasSelection = false;
+				_controller.setCanCopy(false);
 			}
 		}
 	}
@@ -106,6 +120,10 @@ public class PC_SelectTool extends PC_Tool {
 			_edits.forEach(tile -> {
 				_model.setTile(tile.x, tile.y, defTile);
 			});
+
+			if (_edits.size() > 0) {
+				_controller.setCanCopy(true);
+			}
 		}
 	}
 }
