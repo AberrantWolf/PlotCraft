@@ -217,9 +217,6 @@ public class PC_EditorModel {
 	}
 
 	public String serializeToJson() {
-		String result;
-
-		// oh, good lord, this is scary...
 		JsonObjectBuilder rootBuilder = Json.createObjectBuilder();
 
 		JsonArrayBuilder dataBuilder = Json.createArrayBuilder();
