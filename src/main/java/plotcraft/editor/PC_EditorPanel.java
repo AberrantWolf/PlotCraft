@@ -82,11 +82,33 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 				return;
 
 			PC_Tile t = tile.data;
+			int depth = 0;
+			if (t == PC_Config.getDefaultTile()) {
+				int workingLayer = _model.getCurrentLayer();
+
+				while (workingLayer > -1 && t == PC_Config.getDefaultTile()) {
+					workingLayer--;
+					t = _model.getTile(workingLayer, x, y);
+				}
+
+				if (t != PC_Config.getDefaultTile()) {
+					depth = _model.getCurrentLayer() - workingLayer;
+				}
+			}
+
 			if (t != null && t.image != null) {
 				if (t.cachedImage == null) {
 					PC_Config.getInstance().cacheImages(tileSize, getGraphicsConfiguration());
 				}
 				g2.drawImage(t.cachedImage, xpos, ypos, null);
+
+				depth = Math.min(depth, 8);
+				depth = Math.max(depth, 0);
+				if (depth > 0) {
+					float alpha = (float) Math.sin(depth * (Math.PI/16.0f)) * 0.8f + 0.1f;
+					g2.setColor(new Color(1.0f, 1.0f, 1.0f, alpha));
+					g2.fillRect(xpos, ypos, tileSize, tileSize);
+				}
 			}
 		});
 
