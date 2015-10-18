@@ -215,6 +215,7 @@ public class PC_Editor {
 
 	JMenuItem _editCopyItem;
 	JMenuItem _editPasteItem;
+
 	private void makeMenu(JFrame frame) {
 		JMenuBar menuBar = new JMenuBar();
 
@@ -357,18 +358,22 @@ public class PC_Editor {
 	}
 
 	private boolean _canCopy;
+
 	public void setCanCopy(boolean can) {
 		_canCopy = can;
 
 		_editCopyItem.setEnabled(_canCopy);
 	}
+
 	private boolean _canPaste;
+
 	public void setCanPaste(boolean can) {
 		_canPaste = can;
 		_editPasteItem.setEnabled(_canPaste);
 	}
 
 	ArrayList<PC_EditedTile> _copyBuffer;
+
 	private void doCopy() {
 		if (!_canCopy) {
 			return;
@@ -628,8 +633,8 @@ public class PC_Editor {
 		_lineToggleButton.setEnabled(true);
 		_lineToggleButton.setFocusable(false);
 		_lineToggleButton.setText("Line");
-		_lineToggleButton.setMnemonic('L');
-		_lineToggleButton.setDisplayedMnemonicIndex(0);
+		_lineToggleButton.setMnemonic('I');
+		_lineToggleButton.setDisplayedMnemonicIndex(1);
 		gbc = new GridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 0;

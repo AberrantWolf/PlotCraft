@@ -27,17 +27,7 @@ public class PC_BrushTool extends PC_Tool {
 
 	@Override
 	public void setupToolOptions(JPanel optionsPanel) {
-		JPanel sizePanel = new JPanel();
-
-		JSpinner sizeSpinner = new JSpinner();
-		sizeSpinner.setModel(new SpinnerNumberModel(s_brushSize, 1, null, 1));
-		sizeSpinner.addChangeListener(changeEvent -> s_brushSize = (Integer)sizeSpinner.getValue());
-
-		sizePanel.setLayout(new GridLayout(0, 2));
-		sizePanel.add(new JLabel("Size"));
-		sizePanel.add(sizeSpinner);
-
-		optionsPanel.add(sizePanel);
+		// no tool options
 		optionsPanel.revalidate();
 	}
 

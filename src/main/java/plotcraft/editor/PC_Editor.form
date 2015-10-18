@@ -219,7 +219,7 @@
                         <properties>
                           <enabled value="true"/>
                           <focusable value="false"/>
-                          <text value="&amp;Line"/>
+                          <text value="L&amp;ine"/>
                         </properties>
                       </component>
                       <component id="e083d" class="javax.swing.JToggleButton" binding="_rectToggleButton">
