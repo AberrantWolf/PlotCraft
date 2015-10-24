@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.json.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageFilter;
+import java.awt.image.RGBImageFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -94,9 +96,7 @@ public class PC_Config {
 			if (tile.cachedImage == null || needsResize) {
 				BufferedImage cache = resizeImage(tile.image, size, size, gc);
 
-				if (tile.usesBiomeGrass) {
-					applyBiomeColor(cache);
-				}
+				applyBiomeColor(cache, tile.biomeColor);
 
 				tile.cachedImage = cache;
 			}
@@ -118,26 +118,44 @@ public class PC_Config {
 			_gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 		}
 
-		BufferedImage result = _gc.createCompatibleImage(w, h);
+		BufferedImage result = _gc.createCompatibleImage(w, h, Transparency.TRANSLUCENT);
 		Graphics2D g2 = result.createGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+
+		g2.setComposite(AlphaComposite.Src);
+
 		g2.drawImage(src, 0, 0, w, h, 0, 0, src.getWidth(), src.getHeight(), null);
 		g2.dispose();
 
 		return result;
 	}
 
-	private void applyBiomeColor(BufferedImage cache) {
-		Color b = getBiomeGrassColor();
+	private void applyBiomeColor(BufferedImage cache, BiomeColor bc) {
+		Color b;
+
+		switch (bc) {
+			case Grass:
+				b = getBiomeGrassColor();
+				break;
+			case Leaf:
+				b = getBiomeLeafColor();
+				break;
+			default:
+				return;
+		}
+
 		for (int y = 0; y < cache.getHeight(); y++) {
 			for (int x = 0; x < cache.getWidth(); x++) {
-				Color c = new Color(cache.getRGB(x, y));
+				int argb = cache.getRGB(x, y);
+				Color c = new Color(argb, true);
 
+				float fa = (c.getAlpha() / 255f) * (b.getAlpha() / 255f);
 				float fr = (c.getRed() / 255f) * (b.getRed() / 255f);
 				float fg = (c.getGreen() / 255f) * (b.getGreen() / 255f);
 				float fb = (c.getBlue() / 255f) * (b.getBlue() / 255f);
 
-				int f = (int) (fr * 255) << 16
+				int f = (int) (fa * 255) << 24
+						        | (int)(fr * 255) << 16
 						        | (int) (fg * 255) << 8
 						        | (int) (fb * 255);
 
@@ -172,6 +190,25 @@ public class PC_Config {
 	private Color getBiomeGrassColor() {
 		return Color.GREEN;
 	}
+	private Color getBiomeLeafColor() {
+		return Color.GREEN;
+	}
+
+
+	private boolean checkForTransparent(BufferedImage img) {
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = 0; x < img.getWidth(); x++) {
+				int argb = img.getRGB(x, y);
+				if ((argb & 0xFF000000) == 0) {
+					System.out.println("FOUND TRANSPARENT!");
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 
 	private void CreateTiles() {
 		_tileTemplates = new ArrayList<>();
@@ -189,8 +226,18 @@ public class PC_Config {
 			tile.dv = entry.getInt("data_value", 0);
 
 			tile.name = entry.getString("name", "<default>");
-			tile.usesBiomeGrass = entry.getBoolean("use_biome_grass", false);
+			tile.isTransparent = entry.getBoolean("transparent", false);
 
+			// Biome color tinting
+			if (entry.getBoolean("use_biome_grass", false)) {
+				tile.biomeColor = BiomeColor.Grass;
+			} else if (entry.getBoolean("use_biome_leaf", false)) {
+				tile.biomeColor = BiomeColor.Leaf;
+			} else {
+				tile.biomeColor = BiomeColor.None;
+			}
+
+			// Check for valid data value range
 			if (tile.dv > 15) {
 				System.out.println(String.format("WARNING: tile (%s: %d) has invalid data_value %d", tile.name, tile.id, tile.dv));
 			}
@@ -200,16 +247,19 @@ public class PC_Config {
 				path = entry.getString("texture");
 			}
 
+			// Load the tile images
 			if (path != null) {
 				BufferedImage img = null;
 				try {
 					img = ImageIO.read(new File("textures/blocks/" + path));
 
+					// load tiled images (needed for the animated textures like water and lava)
 					int tile_idx = entry.getInt("tile_idx", -1);
 					if (tile_idx > -1) {
 						int tile_size = entry.getInt("tile_size", 16);
 						BufferedImage tile_img = new BufferedImage(tile_size, tile_size, img.getType());
 						Graphics2D g2 = tile_img.createGraphics();
+						g2.setComposite(AlphaComposite.Src);
 						g2.drawImage(img, 0, 0, null);
 						g2.dispose();
 
@@ -226,9 +276,11 @@ public class PC_Config {
 				tile.image = img;
 				tile.toolPreview = resizeImage(tile.image, getPreviewSize(), getPreviewSize(), null);
 
-				if (tile.usesBiomeGrass) {
-					applyBiomeColor(tile.toolPreview);
+				if (checkForTransparent(tile.image) != checkForTransparent(tile.toolPreview)) {
+					System.out.println("ERROR: lost transparency");
 				}
+
+				applyBiomeColor(tile.toolPreview, tile.biomeColor);
 			}
 
 			_tileTemplates.add(tile);

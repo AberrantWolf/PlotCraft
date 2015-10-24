@@ -62,6 +62,53 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 		return new Point(Math.min(_mousePosition.x / tileSize, maxWidth), Math.min(_mousePosition.y / tileSize, maxHeight));
 	}
 
+	private void drawVisibleLayers(int x, int y, int xpos, int ypos, int tileSize, int depth, Graphics2D g2) {
+		if (depth < 0) {
+			return;
+		}
+
+		int workingLayer = _model.getCurrentLayer() - depth;
+
+		PC_Tile t = _model.getTile(workingLayer, x, y);
+		if (_controller.getSelectedTool().hasEditedTile(x, y)) {
+			t = PC_Config.getDefaultTile();
+		}
+
+		if (t == PC_Config.getDefaultTile()) {
+
+			while (workingLayer > -1 && t == PC_Config.getDefaultTile()) {
+				workingLayer--;
+				t = _model.getTile(workingLayer, x, y);
+			}
+
+			if (t != PC_Config.getDefaultTile()) {
+				depth = _model.getCurrentLayer() - workingLayer;
+			}
+		}
+
+		if (t != null && t.image != null) {
+			if (t.cachedImage == null) {
+				PC_Config.getInstance().cacheImages(tileSize, getGraphicsConfiguration());
+			}
+			if (t.isTransparent) {
+				drawVisibleLayers(x, y, xpos, ypos, tileSize, depth+1, g2);
+			}
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+
+			// TODO: Composite the image and depth masking before drawing to the destination to preserve alpha and not double-fade lower layers
+			g2.drawImage(t.cachedImage, xpos, ypos, null);
+
+			depth = Math.min(depth, 8);
+			depth = Math.max(depth, 0);
+			if (depth > 0) {
+				float alpha = (float) Math.sin(depth * (Math.PI/16.0f)) * 0.8f + 0.1f;
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP));
+				g2.setColor(new Color(1.0f, 1.0f, 1.0f, alpha));
+				g2.fillRect(xpos, ypos, tileSize, tileSize);
+			}
+		}
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
@@ -81,35 +128,7 @@ public class PC_EditorPanel extends JPanel implements Scrollable, MouseListener,
 					|| ypos + tileSize < clipBounds.y)
 				return;
 
-			PC_Tile t = tile.data;
-			int depth = 0;
-			if (t == PC_Config.getDefaultTile()) {
-				int workingLayer = _model.getCurrentLayer();
-
-				while (workingLayer > -1 && t == PC_Config.getDefaultTile()) {
-					workingLayer--;
-					t = _model.getTile(workingLayer, x, y);
-				}
-
-				if (t != PC_Config.getDefaultTile()) {
-					depth = _model.getCurrentLayer() - workingLayer;
-				}
-			}
-
-			if (t != null && t.image != null) {
-				if (t.cachedImage == null) {
-					PC_Config.getInstance().cacheImages(tileSize, getGraphicsConfiguration());
-				}
-				g2.drawImage(t.cachedImage, xpos, ypos, null);
-
-				depth = Math.min(depth, 8);
-				depth = Math.max(depth, 0);
-				if (depth > 0) {
-					float alpha = (float) Math.sin(depth * (Math.PI/16.0f)) * 0.8f + 0.1f;
-					g2.setColor(new Color(1.0f, 1.0f, 1.0f, alpha));
-					g2.fillRect(xpos, ypos, tileSize, tileSize);
-				}
-			}
+			drawVisibleLayers(x, y, xpos, ypos, tileSize, 0, g2);
 		});
 
 		// Draw tool edits

@@ -127,6 +127,7 @@
       "id":8,
       "name":"Water",
       "texture":"water_still.png",
+      "transparent":true,
       "tile_idx":0,
       "tile_size":16
     },
@@ -134,6 +135,7 @@
       "id":9,
       "name":"Still Water",
       "texture":"water_still.png",
+      "transparent":true,
       "tile_idx":0,
       "tile_size":16
     },
@@ -209,6 +211,37 @@
       "name":"Jungle Wood",
       "texture":"log_jungle_top.png",
       "side_texture":"log_jungle_side.png"
+    },
+    {
+      "id":18,
+      "name":"Oak Leaves",
+      "texture":"leaves_oak.png",
+      "use_biome_leaf":true,
+      "transparent":true
+    },
+    {
+      "id":18,
+      "data_value":1,
+      "name":"Spruce Leaves",
+      "texture":"leaves_spruce.png",
+      "use_biome_leaf":true,
+      "transparent":true
+    },
+    {
+      "id":18,
+      "data_value":2,
+      "name":"Birch Leaves",
+      "texture":"leaves_birch.png",
+      "use_biome_leaf":true,
+      "transparent":true
+    },
+    {
+      "id":18,
+      "data_value":3,
+      "name":"Jungle Leaves",
+      "texture":"leaves_jungle.png",
+      "use_biome_leaf":true,
+      "transparent":true
     }
   ]
 }

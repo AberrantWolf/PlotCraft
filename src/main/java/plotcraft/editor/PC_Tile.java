@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
  *
  * Created by harper on 10/7/2015.
  */
+
+enum BiomeColor {
+	None,
+	Grass,
+	Leaf
+}
 public class PC_Tile {
 	public int id;
 	public int dv;
@@ -14,5 +20,6 @@ public class PC_Tile {
 	public BufferedImage image;
 	public BufferedImage toolPreview;
 	public BufferedImage cachedImage;
-	boolean usesBiomeGrass;
+	public boolean isTransparent;
+	public BiomeColor biomeColor;
 }

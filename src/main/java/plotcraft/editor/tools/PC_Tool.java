@@ -30,6 +30,16 @@ public abstract class PC_Tool {
 		return _edits;
 	}
 
+	public final boolean hasEditedTile(int x, int y) {
+		for (PC_EditedTile tile : _edits) {
+			if (tile.x == x && tile.y == y) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	protected final void addEditedTile(PC_EditedTile tile) {
 		boolean exists = false;
 		for (PC_EditedTile edit : _edits) {
