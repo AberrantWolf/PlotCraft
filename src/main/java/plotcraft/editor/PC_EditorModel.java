@@ -227,7 +227,8 @@ public class PC_EditorModel {
 				JsonArrayBuilder rowBuilder = Json.createArrayBuilder();
 
 				for (Tile tile : row) {
-					rowBuilder.add(tile.data.id);
+					//rowBuilder.add(tile.data.id);
+					rowBuilder.add(String.format("%d:%d", tile.data.id, tile.data.dv));
 				}
 				layerBuilder.add(rowBuilder);
 			}
@@ -288,14 +289,34 @@ public class PC_EditorModel {
 					ArrayList<Tile> t_row = new ArrayList<>();
 					JsonArray row = (JsonArray)row_value;
 					for (JsonValue tile_value : row) {
-						if (tile_value.getValueType() != JsonValue.ValueType.NUMBER) {
-							System.out.println("ERROR: tile array entry was not a JSON number");
-							return false;
+						int tile_id = 0, tile_dv = 0;
+						if (tile_value.getValueType() == JsonValue.ValueType.STRING) {
+							JsonString tile_info = (JsonString) tile_value;
+							String[] parts = tile_info.getString().split(":");
+							if (parts.length < 1) {
+								System.out.println("ERROR: tile entry string has no data");
+								return false;
+							}
+
+							try {
+								tile_id = Integer.parseInt(parts[0]);
+
+								if (parts.length > 1) {
+									tile_dv = Integer.parseInt(parts[1]);
+								}
+							} catch (NumberFormatException e) {
+								System.out.println(String.format("ERROR: \"%s\" could not be parsed as an integer", tile_info.getString()));
+								e.printStackTrace();
+							}
+						} else if (tile_value.getValueType() == JsonValue.ValueType.NUMBER) {
+							tile_id = ((JsonNumber) tile_value).intValue();
+
+						} else {
+							System.out.println("ERROR: tile array entry was not a JSON number or string");
 						}
 
-						JsonNumber tile_id = (JsonNumber)tile_value;
 						Tile t = new Tile();
-						t.data = PC_Config.getTile(tile_id.intValue());
+						t.data = PC_Config.getTile(tile_id, tile_dv);
 						t_row.add(t);
 					}
 					// CHECK

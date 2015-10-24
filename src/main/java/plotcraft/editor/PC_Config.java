@@ -35,11 +35,21 @@ public class PC_Config {
 	public static PC_Tile getDefaultTile() {
 		return getInstance()._tileTemplates.get(0);
 	}
-	public static PC_Tile getTile(int id) {
+	public static PC_Tile getTile(int id, int dv) {
+		PC_Tile result = null;
 		for (PC_Tile t : getInstance()._tileTemplates) {
 			if (t.id == id) {
-				return t;
+				if (t.dv == dv) {
+					return t;
+				}
+				if (result == null) {
+					result = t;
+				}
 			}
+		}
+
+		if (result != null) {
+			return result;
 		}
 
 		PC_Tile mismatch = new PC_Tile();
@@ -82,11 +92,7 @@ public class PC_Config {
 			}
 
 			if (tile.cachedImage == null || needsResize) {
-				BufferedImage cache = gc.createCompatibleImage(size, size);
-				Graphics2D g2 = cache.createGraphics();
-				g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-				g2.drawImage(tile.image, 0, 0, size, size, 0, 0, tile.image.getWidth(), tile.image.getHeight(), null);
-				g2.dispose();
+				BufferedImage cache = resizeImage(tile.image, size, size, gc);
 
 				if (tile.usesBiomeGrass) {
 					applyBiomeColor(cache);
@@ -97,12 +103,22 @@ public class PC_Config {
 		}
 	}
 
-	private BufferedImage resizeImage(BufferedImage src, int w, int h) {
+	private static GraphicsConfiguration _gc;
+	private BufferedImage resizeImage(BufferedImage src, int w, int h, GraphicsConfiguration gcIn) {
 		if (src == null) {
 			return null;
 		}
 
-		BufferedImage result = new BufferedImage(w, h, src.getType());
+		if (gcIn != null && _gc != gcIn) {
+			_gc = gcIn;
+		}
+
+		if (_gc == null) {
+			// just grab the default graphics configuration
+			_gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+		}
+
+		BufferedImage result = _gc.createCompatibleImage(w, h);
 		Graphics2D g2 = result.createGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		g2.drawImage(src, 0, 0, w, h, 0, 0, src.getWidth(), src.getHeight(), null);
@@ -170,6 +186,14 @@ public class PC_Config {
 
 			PC_Tile tile = new PC_Tile();
 			tile.id = entry.getInt("id");
+			tile.dv = entry.getInt("data_value", 0);
+
+			tile.name = entry.getString("name", "<default>");
+			tile.usesBiomeGrass = entry.getBoolean("use_biome_grass", false);
+
+			if (tile.dv > 15) {
+				System.out.println(String.format("WARNING: tile (%s: %d) has invalid data_value %d", tile.name, tile.id, tile.dv));
+			}
 
 			String path = null;
 			if (!entry.isNull("texture")) {
@@ -200,11 +224,12 @@ public class PC_Config {
 				}
 
 				tile.image = img;
-				tile.toolPreview = resizeImage(tile.image, getPreviewSize(), getPreviewSize());
-			}
+				tile.toolPreview = resizeImage(tile.image, getPreviewSize(), getPreviewSize(), null);
 
-			tile.name = entry.getString("name", "<default>");
-			tile.usesBiomeGrass = entry.getBoolean("use_biome_grass", false);
+				if (tile.usesBiomeGrass) {
+					applyBiomeColor(tile.toolPreview);
+				}
+			}
 
 			_tileTemplates.add(tile);
 		}

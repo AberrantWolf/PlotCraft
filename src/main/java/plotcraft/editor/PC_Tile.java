@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
  */
 public class PC_Tile {
 	public int id;
+	public int dv;
 	public String name;
 	public BufferedImage image;
 	public BufferedImage toolPreview;
