@@ -11,9 +11,47 @@
       "texture":"stone.png"
     },
     {
+      "id":1,
+      "data_value":1,
+      "name":"Granite",
+      "texture":"stone_granite.png"
+    },
+    {
+      "id":1,
+      "data_value":2,
+      "name":"Polished Granite",
+      "texture":"stone_granite_smooth.png"
+    },
+    {
+      "id":1,
+      "data_value":3,
+      "name":"Diorite",
+      "texture":"stone_diorite.png"
+    },
+    {
+      "id":1,
+      "data_value":4,
+      "name":"Polished Diorite",
+      "texture":"stone_diorite_smooth.png"
+    },
+    {
+      "id":1,
+      "data_value":5,
+      "name":"Andesite",
+      "texture":"stone_andesite.png"
+    },
+    {
+      "id":1,
+      "data_value":6,
+      "name":"Polished Andesite",
+      "texture":"stone_andesite_smooth.png"
+    },
+    {
       "id":2,
       "name":"Grass Block",
       "texture":"grass_top.png",
+      "side_texture":"grass_side.png",
+      "side_overlay_texture":"grass_side_overlay.png",
       "use_biome_grass":true
     },
     {
@@ -22,14 +60,62 @@
       "texture":"dirt.png"
     },
     {
+      "id":3,
+      "data_value":1,
+      "name":"Coarse Dirt",
+      "texture":"coarse_dirt.png"
+    },
+    {
+      "id":3,
+      "data_value":2,
+      "name":"Podzol",
+      "texture":"dirt_podzol_top.png",
+      "side_texture":"dirt_podzol_side.png"
+    },
+    {
       "id":4,
       "name":"Cobblestone",
       "texture":"cobblestone.png"
     },
     {
       "id":5,
-      "name":"Wood Planks",
+      "name":"Oak Planks",
       "texture":"planks_oak.png"
+    },
+    {
+      "id":5,
+      "data_value":1,
+      "name":"Spruce Planks",
+      "texture":"planks_spruce.png"
+    },
+    {
+      "id":5,
+      "data_value":2,
+      "name":"Birch Planks",
+      "texture":"planks_birch.png"
+    },
+    {
+      "id":5,
+      "data_value":3,
+      "name":"Jungle Planks",
+      "texture":"planks_jungle.png"
+    },
+    {
+      "id":5,
+      "data_value":4,
+      "name":"Acacia Planks",
+      "texture":"planks_acacia.png"
+    },
+    {
+      "id":5,
+      "data_value":5,
+      "name":"Dark Oak Planks",
+      "texture":"planks_big_oak.png"
+    },
+    {
+    	"skip":true,
+    	"id":8,
+    	"name":"Oak Sapling"
     },
     {
       "id":7,
@@ -46,7 +132,7 @@
     },
     {
       "id":9,
-      "name":"Stationary Water",
+      "name":"Still Water",
       "texture":"water_still.png",
       "tile_idx":0,
       "tile_size":16
@@ -61,7 +147,7 @@
     },
     {
       "id":11,
-      "name":"Stationary Lava",
+      "name":"Still Lava",
       "texture": "lava_still.png",
       "tile_idx":0,
       "tile_size":16
@@ -72,19 +158,57 @@
       "texture":"sand.png"
     },
     {
+      "id":12,
+      "data_value":1,
+      "name":"Red Sand",
+      "texture":"red_sand.png"
+    },
+    {
       "id":13,
-      "name":" Gravel",
+      "name":"Gravel",
       "texture":"gravel.png"
     },
     {
       "id":14,
-      "name":" Gold Ore",
+      "name":"Gold Ore",
       "texture":"gold_ore.png"
     },
     {
       "id":15,
-      "name":" Iron Ore",
+      "name":"Iron Ore",
       "texture":"iron_ore.png"
+    },
+    {
+      "id":16,
+      "name":"Coal Ore",
+      "texture":"coal_ore.png"
+    },
+    {
+      "id":17,
+      "name":"Oak Wood",
+      "texture":"log_oak_top.png",
+      "side_texture":"log_oak_side.png"
+    },
+    {
+      "id":17,
+      "data_value":1,
+      "name":"Spruce Wood",
+      "texture":"log_spruce_top.png",
+      "side_texture":"log_spruce_side.png"
+    },
+    {
+      "id":17,
+      "data_value":2,
+      "name":"Birch Wood",
+      "texture":"log_birch_top.png",
+      "side_texture":"log_birch_side.png"
+    },
+    {
+      "id":17,
+      "data_value":3,
+      "name":"Jungle Wood",
+      "texture":"log_jungle_top.png",
+      "side_texture":"log_jungle_side.png"
     }
   ]
 }
