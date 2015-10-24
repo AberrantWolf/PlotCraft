@@ -82,7 +82,7 @@ public class PC_EditorModel {
 
 		_width = w;
 
-		assert TilesIsNotEmpty();
+		assert tilesIsNotEmpty();
 	}
 
 	public int getHeight() {
@@ -112,7 +112,7 @@ public class PC_EditorModel {
 
 		_height = h;
 
-		assert TilesIsNotEmpty();
+		assert tilesIsNotEmpty();
 	}
 
 	public int getDepth() {
@@ -145,10 +145,10 @@ public class PC_EditorModel {
 
 		_depth = d;
 
-		assert TilesIsNotEmpty();
+		assert tilesIsNotEmpty();
 	}
 
-	private boolean TilesIsNotEmpty() {
+	private boolean tilesIsNotEmpty() {
 		forEachTile((Tile tile, int x, int y, int depth) -> {
 			assert tile != null;
 		});
@@ -362,8 +362,7 @@ public class PC_EditorModel {
 		ET_Line,
 		ET_Rect,
 		ET_Ellipse,
-		ET_Select,
-		ET_Erase
+		ET_Select
 	}
 	private EditorTool _currentTool;
 
