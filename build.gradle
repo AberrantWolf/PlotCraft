@@ -6,7 +6,7 @@ apply plugin: 'idea'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-version = '2'
+version = '4'
 
 applicationName = "PlotCraft"
 mainClassName = 'plotcraft.editor.PlotCraft'

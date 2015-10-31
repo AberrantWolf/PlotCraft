@@ -242,6 +242,359 @@
       "texture":"leaves_jungle.png",
       "use_biome_leaf":true,
       "transparent":true
+    },
+    {
+      "id":19,
+      "name":"Sponge",
+      "texture":"sponge.png"
+    },
+    {
+      "id":19,
+      "data_value":1,
+      "name":"Wet Sponge",
+      "texture":"sponge_wet.png"
+    },
+    {
+      "id":20,
+      "name":"Glass",
+      "texture":"glass.png",
+      "transparent":true
+    },
+    {
+      "id":21,
+      "name":"Lapis Lazuli Ore",
+      "texture":"lapis_ore.png"
+    },
+    {
+      "id":22,
+      "name":"Lapis Lazuli Block",
+      "texture":"lapis_block.png"
+    },
+    {
+      "id":23,
+      "name":"Dispenser",
+      "texture":"dispenser_front_vertical.png",
+      "side_texture":"dispenser_front_horizontal.png"
+    },
+    {
+      "id":24,
+      "name":"Sandstone",
+      "texture":"sandstone_top.png",
+      "side_texture":"sandstone_normal.png"
+    },
+    {
+      "id":24,
+      "data_value":1,
+      "name":"Chiseled Sandstone",
+      "texture":"sandstone_top.png",
+      "side_texture":"sandstone_carved.png"
+    },
+    {
+      "id":24,
+      "data_value":2,
+      "name":"Smooth Sandstone",
+      "texture":"sandstone_top.png",
+      "side_texture":"sandstone_smooth.png"
+    },
+    {
+      "id":25,
+      "name":"Note Block",
+      "texture":"noteblock.png"
+    },
+    {
+      "id":26,
+      "skip":true,
+      "name":"Bed",
+      "texture":"bed_head_top.png"
+    },
+    {
+      "id":27,
+      "name":"Powered Rail",
+      "texture":"rail_golden.png",
+      "transparent":true,
+      "connect_to":[27, 28]
+    },
+    {
+      "id":28,
+      "name":"Detector Rail",
+      "texture":"rail_detector.png",
+      "transparent":true,
+      "connect_to":[27, 28]
+    },
+    {
+      "id":29,
+      "name":"Sticky Piston",
+      "texture":"piston_top_sticky.png",
+      "side_texture":"piston_side.png"
+    },
+    {
+      "id":30,
+      "name":"Cobweb",
+      "texture":"web.png",
+      "transparent":true
+    },
+    {
+      "id":31,
+      "skip":true,
+      "name":"Dead Shrub",
+      "texture":"deadbush.png"
+    },
+    {
+      "id":31,
+      "data_value":1,
+      "skip":true,
+      "name":"Grass",
+      "texture":"tallgrass.png",
+      "use_biome_color":true
+    },
+    {
+      "id":31,
+      "data_value":2,
+      "skip":true,
+      "name":"Fern",
+      "texture":"fern.png",
+      "use_biome_color":true
+    },
+    {
+      "id":32,
+      "skip":true,
+      "name":"Dead Bush",
+      "texture":"deadbush.png"
+    },
+    {
+      "id":33,
+      "name":"Piston",
+      "texture":"piston_top_normal.png",
+      "side_texture":"piston_side.png"
+    },
+    {
+      "id":34,
+      "skip":true,
+      "name":"Piston Head",
+      "texture":"piston_top_normal.png"
+    },
+    {
+      "id": 35,
+      "name": "White Wool",
+      "texture": "wool_colored_white.png"
+    },
+    {
+      "id": 35,
+      "data_value":1,
+      "name": "Orange Wool",
+      "texture": "wool_colored_orange.png"
+    },
+    {
+      "id": 35,
+      "data_value":2,
+      "name": "Magenta Wool",
+      "texture": "wool_colored_magenta.png"
+    },
+    {
+      "id": 35,
+      "data_value":3,
+      "name": "Light Blue Wool",
+      "texture": "wool_colored_light_blue.png"
+    },
+    {
+      "id": 35,
+      "data_value":4,
+      "name": "Yellow Wool",
+      "texture": "wool_colored_yellow.png"
+    },
+    {
+      "id": 35,
+      "data_value":5,
+      "name": "Lime Wool",
+      "texture": "wool_colored_lime.png"
+    },
+    {
+      "id": 35,
+      "data_value":6,
+      "name": "Pink Wool",
+      "texture": "wool_colored_pink.png"
+    },
+    {
+      "id": 35,
+      "data_value":7,
+      "name": "Gray Wool",
+      "texture": "wool_colored_gray.png"
+    },
+    {
+      "id": 35,
+      "data_value":8,
+      "name": "Light Gray Wool",
+      "texture": "wool_colored_silver.png"
+    },
+    {
+      "id": 35,
+      "data_value":9,
+      "name": "Cyan Wool",
+      "texture": "wool_colored_cyan.png"
+    },
+    {
+      "id": 35,
+      "data_value":10,
+      "name": "Purple Wool",
+      "texture": "wool_colored_purple.png"
+    },
+    {
+      "id": 35,
+      "data_value":11,
+      "name": "Blue Wool",
+      "texture": "wool_colored_blue.png"
+    },
+    {
+      "id": 35,
+      "data_value":12,
+      "name": "Brown Wool",
+      "texture": "wool_colored_brown.png"
+    },
+    {
+      "id": 35,
+      "data_value":13,
+      "name": "Green Wool",
+      "texture": "wool_colored_green.png"
+    },
+    {
+      "id": 35,
+      "data_value":14,
+      "name": "Red Wool",
+      "texture": "wool_colored_red.png"
+    },
+    {
+      "id": 35,
+      "data_value":15,
+      "name": "Black Wool",
+      "texture": "wool_colored_black.png"
+    },
+    {
+      "id": 82,
+      "name": "Clay",
+      "texture": "clay.png"
+    },
+    {
+      "id": 98,
+      "name": "Stone Bricks",
+      "texture": "stonebrick.png"
+    },
+    {
+      "id": 98,
+      "data_value":1,
+      "name": "Mossy Stone Brick",
+      "texture": "stonebrick_mossy.png"
+    },
+    {
+      "id": 98,
+      "data_value":2,
+      "name": "Cracked Stone Brick",
+      "texture": "stonebrick_cracked.png"
+    },
+    {
+      "id": 98,
+      "data_value":3,
+      "name": "Chiseled Stone Brick",
+      "texture": "stonebrick_carved.png"
+    },
+    {
+      "id": 159,
+      "name": "White Stained Clay",
+      "texture": "hardened_clay_stained_white.png"
+    },
+    {
+      "id": 159,
+      "data_value":1,
+      "name": "Orange Stained Clay",
+      "texture": "hardened_clay_stained_orange.png"
+    },
+    {
+      "id": 159,
+      "data_value":2,
+      "name": "Magenta Stained Clay",
+      "texture": "hardened_clay_stained_magenta.png"
+    },
+    {
+      "id": 159,
+      "data_value":3,
+      "name": "Light Blue Stained Clay",
+      "texture": "hardened_clay_stained_light_blue.png"
+    },
+    {
+      "id": 159,
+      "data_value":4,
+      "name": "Yellow Stained Clay",
+      "texture": "hardened_clay_stained_yellow.png"
+    },
+    {
+      "id": 159,
+      "data_value":5,
+      "name": "Lime Stained Clay",
+      "texture": "hardened_clay_stained_lime.png"
+    },
+    {
+      "id": 159,
+      "data_value":6,
+      "name": "Pink Stained Clay",
+      "texture": "hardened_clay_stained_pink.png"
+    },
+    {
+      "id": 159,
+      "data_value":7,
+      "name": "Gray Stained Clay",
+      "texture": "hardened_clay_stained_gray.png"
+    },
+    {
+      "id": 159,
+      "data_value":8,
+      "name": "Light Gray Stained Clay",
+      "texture": "hardened_clay_stained_silver.png"
+    },
+    {
+      "id": 159,
+      "data_value":9,
+      "name": "Cyan Stained Clay",
+      "texture": "hardened_clay_stained_cyan.png"
+    },
+    {
+      "id": 159,
+      "data_value":10,
+      "name": "Purple Stained Clay",
+      "texture": "hardened_clay_stained_purple.png"
+    },
+    {
+      "id": 159,
+      "data_value":11,
+      "name": "Blue Stained Clay",
+      "texture": "hardened_clay_stained_blue.png"
+    },
+    {
+      "id": 159,
+      "data_value":12,
+      "name": "Brown Stained Clay",
+      "texture": "hardened_clay_stained_brown.png"
+    },
+    {
+      "id": 159,
+      "data_value":13,
+      "name": "Green Stained Clay",
+      "texture": "hardened_clay_stained_green.png"
+    },
+    {
+      "id": 159,
+      "data_value":14,
+      "name": "Red Stained Clay",
+      "texture": "hardened_clay_stained_red.png"
+    },
+    {
+      "id": 159,
+      "data_value":15,
+      "name": "Black Stained Clay",
+      "texture": "hardened_clay_stained_black.png"
+    },
+    {
+      "id": 172,
+      "name": "Hardened Clay",
+      "texture": "hardened_clay.png"
     }
   ]
 }
